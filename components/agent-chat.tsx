@@ -27,7 +27,10 @@ import {
 	PromptInputTextarea,
 	PromptInputTools,
 } from "@/components/ai-elements/prompt-input";
+import type { ShoppingAgentUIMessage } from "@/lib/agent";
+import { AgentProductList } from "./agent-product-list";
 import { useChat } from "@ai-sdk/react";
+import { AgentProductCard } from "./agent-product-card";
 
 
 export function AgentChat() {
@@ -38,7 +41,7 @@ export function AgentChat() {
 	}, []);
 
 
-	const { messages, error, sendMessage } = useChat({
+	const { messages, error, sendMessage } = useChat<ShoppingAgentUIMessage>({
 		resume: Boolean(activeRunId),
 		transport: new WorkflowChatTransport({
 			api: "/api/chat",
@@ -66,6 +69,7 @@ export function AgentChat() {
 				<ConversationContent>
 					{messages.map((m) =>
 						m.parts.map((p, i) => {
+							console.log("Rendering message part:", p);
 							switch (p.type) {
 								case "text":
 									return (
@@ -74,6 +78,15 @@ export function AgentChat() {
 												<MessageResponse>{p.text}</MessageResponse>
 											</MessageContent>
 										</Message>
+									);
+								case "tool-searchProducts":
+									return (
+										<AgentProductList key={`${m.id}-${i}`} invocation={p} />
+									);
+								case "tool-getProductDetails":
+									console.log("Rendering AgentProductCard with invocation:", p);
+									return (
+										<AgentProductCard key={`${m.id}-${i}`} invocation={p} />
 									);
 								default:
 									return null;

@@ -11,7 +11,7 @@ import { tool } from "ai";
 import { z } from "zod";
 import { start } from "workflow/api";
 import { returnFlow } from "./workflows/return-flow";
-import { ApiRequestError, getBackOfficeReturns, getBackOfficeSales, getBackOfficeStock, getBackOfficeSupportTicket, sgetProductById, getProductStock, createReturn, getCategories, getOrder, getProducts, preauthorizeRefund, notifyReturnInProcess } from "@/lib/api";
+import { ApiRequestError, getBackOfficeReturns, getBackOfficeSales, getBackOfficeStock, getBackOfficeSupportTickets, getProductById, getProductStock, createReturn, getCategories, getOrder, getProducts, preauthorizeRefund, notifyReturnInProcess } from "@/lib/api";
 import { createOrGetSandbox, SANDBOX_NAME } from "@/lib/sandbox";
 
 export const searchProducts = tool({
